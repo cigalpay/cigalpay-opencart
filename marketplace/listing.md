@@ -1,27 +1,27 @@
 # opencart.com listing - CigalPay
 
-Form: opencart.com → Manage your Extensions → Add Extension. Use the editor's code view (`</>`) to paste the HTML.
+Form: opencart.com → Manage your Extensions → Add Extension. Paste the texts below in the editor's normal view, as plain text: opencart.com's firewall (Cloudflare) blocks the form when it contains HTML. Use the editor's buttons for bold and lists if wanted.
 
 ## Extension Name
 
 CigalPay - Crypto Payments (Bitcoin, USDT, Ethereum)
 
-## Description (HTML)
+## Description
 
-```html
-<p><strong>Accept crypto payments in your OpenCart store.</strong> Your prices stay in USD or EUR; your customers pay with Bitcoin, USDT, Ethereum, Solana and more on the CigalPay checkout.</p>
-<ul>
-  <li><strong>Prices in USD or EUR:</strong> the customer sees the exact amount to send in the coin they choose. The exchange rate is locked for 30 minutes.</li>
-  <li><strong>Coins:</strong> Bitcoin, USDT (TRC-20), Ethereum, Solana, Litecoin, Dogecoin, Dash, Bitcoin Cash, Polygon and TRX, plus many other coins converted automatically.</li>
-  <li><strong>Automatic order status:</strong> the order moves to your paid status (Processing by default) once the payment is confirmed on the network, and the customer is notified.</li>
-  <li><strong>Secure:</strong> every payment notification is signed, and the extension checks it is for the checkout it created for that order, at the order's price. Partial or mismatched payments are flagged for review instead of being accepted.</li>
-  <li><strong>Refund in crypto from the order page:</strong> a CigalPay tab in Sales → Orders. The customer gets an email to enter their address.</li>
-  <li><strong>No webhook to set up:</strong> the notification address is sent with every payment.</li>
-  <li>Free extension. CigalPay charges a fee per payment; see <a href="https://cigalpay.com/pricing" target="_blank">cigalpay.com/pricing</a>.</li>
-</ul>
-<p><strong>Requirements:</strong> OpenCart 4.0.2.0 or later, PHP with cURL, a free CigalPay account (<a href="https://cigalpay.com" target="_blank">cigalpay.com</a>). Customers shopping in USD or EUR see the option; orders up to 5,000 USD or EUR.</p>
-<p>Source code: <a href="https://github.com/cigalpay/cigalpay-opencart" target="_blank">github.com/cigalpay/cigalpay-opencart</a> · Support: support@cigalpay.com</p>
-```
+Accept crypto payments in your OpenCart store. Your prices stay in USD or EUR; your customers pay with Bitcoin, USDT, Ethereum, Solana and more on the CigalPay checkout.
+
+- Prices in USD or EUR: the customer sees the exact amount to send in the coin they choose. The exchange rate is locked for 30 minutes.
+- Coins: Bitcoin, USDT (TRC-20), Ethereum, Solana, Litecoin, Dogecoin, Dash, Bitcoin Cash, Polygon and TRX, plus many other coins converted automatically.
+- Automatic order status: the order moves to your paid status (Processing by default) once the payment is confirmed on the network, and the customer is notified.
+- Secure: every payment notification is signed, and the extension checks it is for the checkout it created for that order, at the order's price. Partial or mismatched payments are flagged for review instead of being accepted.
+- Refund in crypto from the order page: a CigalPay tab in Sales > Orders. The customer gets an email to enter their address.
+- No webhook to set up: the notification address is sent with every payment.
+- Free extension. CigalPay charges a fee per payment, see cigalpay.com/pricing
+
+Requirements: OpenCart 4.0.2.0 or later, PHP with cURL, a free CigalPay account at cigalpay.com. Customers shopping in USD or EUR see the option; orders up to 5,000 USD or EUR.
+
+Source code: github.com/cigalpay/cigalpay-opencart
+Support: support@cigalpay.com
 
 ## Category
 
@@ -43,31 +43,28 @@ crypto, cryptocurrency, bitcoin, btc, usdt, tether, ethereum, solana, crypto pay
 - Banner (710×380): `banner-710x380.png`
 - Additional images, in this order: `screenshot-1-checkout.png`, `screenshot-2-payment-page.png`, `screenshot-3-order-refund.png`, `screenshot-4-settings.png`
 
-## Documentation (HTML)
+## Documentation
 
-```html
-<h3>Install</h3>
-<ol>
-  <li>In your OpenCart admin, open <strong>Extensions → Installer</strong>, click <strong>Upload</strong> and choose <code>cigalpay-opencart4.ocmod.zip</code>. Then click the green <strong>Install</strong> button next to CigalPay in the list below.</li>
-  <li>Open <strong>Extensions → Extensions</strong>, choose <strong>Payments</strong>, and click the green <strong>Install</strong> button next to CigalPay.</li>
-  <li>Click <strong>Edit</strong> (the pencil) next to CigalPay.</li>
-</ol>
-<h3>Set up</h3>
-<ol>
-  <li>Create a free account at <a href="https://cigalpay.com" target="_blank">cigalpay.com</a>.</li>
-  <li>In the CigalPay dashboard, open <strong>Settings → API credentials</strong> and copy your <strong>Account ID</strong> and <strong>notification signing secret</strong>. To refund from OpenCart, also copy your <strong>API key</strong>.</li>
-  <li>Paste them in the CigalPay settings in OpenCart, choose the order statuses (defaults: Pending while waiting, Processing once paid), turn <strong>Status</strong> on and click <strong>Save</strong>.</li>
-</ol>
-<p>Nothing else to set up: payment notifications are sent to your store automatically. Your store must be reachable from the internet (not localhost).</p>
-<h3>Refunds</h3>
-<p>Open the order in <strong>Sales → Orders</strong>, then the <strong>CigalPay</strong> tab. Enter the amount (in the order currency) and click <strong>Refund</strong>. The amount is converted into the coin the customer paid and comes out of your CigalPay balance; the customer gets an email to enter their address.</p>
-<h3>Troubleshooting</h3>
-<ul>
-  <li><strong>CigalPay doesn't show at checkout:</strong> check that Status is on, the Account ID and signing secret are saved, the customer's currency is USD or EUR, and the order is at most 5,000.</li>
-  <li><strong>Orders stay Pending after payment:</strong> check the notification signing secret. Turn on <strong>Debug log</strong> and look at <strong>System → Maintenance → Error Logs</strong> (lines starting with "CigalPay").</li>
-</ul>
-<p>Questions: support@cigalpay.com</p>
-```
+INSTALL
+1. In your OpenCart admin, open Extensions > Installer, click Upload and choose the CigalPay zip file. Then click the green Install button next to CigalPay in the list below.
+2. Open Extensions > Extensions, choose Payments, and click the green Install button next to CigalPay.
+3. Click Edit (the pencil) next to CigalPay.
+
+SET UP
+1. Create a free account at cigalpay.com.
+2. In the CigalPay dashboard, open Settings > API credentials and copy your Account ID and notification signing secret. To refund from OpenCart, also copy your API key.
+3. Paste them in the CigalPay settings in OpenCart, choose the order statuses (defaults: Pending while waiting, Processing once paid), turn Status on and click Save.
+
+Nothing else to set up: payment notifications are sent to your store automatically. Your store must be reachable from the internet (not localhost).
+
+REFUNDS
+Open the order in Sales > Orders, then the CigalPay tab. Enter the amount (in the order currency) and click Refund. The amount is converted into the coin the customer paid and comes out of your CigalPay balance; the customer gets an email to enter their address.
+
+TROUBLESHOOTING
+- CigalPay doesn't show at checkout: check that Status is on, the Account ID and signing secret are saved, the customer's currency is USD or EUR, and the order is at most 5,000.
+- Orders stay Pending after payment: check the notification signing secret. Turn on Debug log and look at System > Maintenance > Error Logs (lines starting with "CigalPay").
+
+Questions: support@cigalpay.com
 
 ## Extension Downloads
 
