@@ -18,7 +18,7 @@ Accept crypto payments in your OpenCart store. Your prices stay in USD or EUR; y
 - No webhook to set up: the notification address is sent with every payment.
 - Free extension. CigalPay charges a fee per payment, see cigalpay.com/pricing
 
-Requirements: OpenCart 4.0.2.0 or later, PHP with cURL, a free CigalPay account at cigalpay.com. Customers shopping in USD or EUR see the option; orders up to 5,000 USD or EUR.
+Requirements: OpenCart 4.0.2.0 or later, or OpenCart 3.0.x (PHP 7.1+), with cURL, a free CigalPay account at cigalpay.com. Customers shopping in USD or EUR see the option; orders up to 5,000 USD or EUR.
 
 Source code: github.com/cigalpay/cigalpay-opencart
 Support: support@cigalpay.com
@@ -46,7 +46,7 @@ crypto, cryptocurrency, bitcoin, btc, usdt, tether, ethereum, solana, crypto pay
 ## Documentation
 
 INSTALL
-1. In your OpenCart admin, open Extensions > Installer, click Upload and choose the CigalPay zip file. Then click the green Install button next to CigalPay in the list below.
+1. In your OpenCart admin, open Extensions > Installer, click Upload and choose the CigalPay zip file for your OpenCart version (cigalpay-opencart4.ocmod.zip or cigalpay-opencart3.ocmod.zip). On OpenCart 4, then click the green Install button next to CigalPay in the list below.
 2. Open Extensions > Extensions, choose Payments, and click the green Install button next to CigalPay.
 3. Click Edit (the pencil) next to CigalPay.
 
@@ -71,7 +71,7 @@ Questions: support@cigalpay.com
 | Download Name | File | Compatibility (tick) |
 |---|---|---|
 | CigalPay for OpenCart 4 | `build/cigalpay-opencart4.ocmod.zip` | 4.0.2.0, 4.0.2.1, 4.0.2.2, 4.0.2.3, 4.1.0.0, 4.1.0.1, 4.1.0.2, 4.1.0.3, 4.1.0.4 |
-| CigalPay for OpenCart 3 (later) | `build/cigalpay-opencart3.ocmod.zip` | 3.0.x |
+| CigalPay for OpenCart 3 | `build/cigalpay-opencart3.ocmod.zip` | 3.0.2.0, 3.0.3.x, 3.0.4.x, 3.0.5.0, 3.0.5.1 |
 
 Do **not** turn on the Cloud Marketplace option (it is the old "upload/install.xml" format).
 
@@ -80,3 +80,5 @@ Do **not** turn on the Cloud Marketplace option (it is the old "upload/install.x
 - Publish: Yes
 - Notify when new comments are made: Yes
 - Send update email to purchasers: Yes (useful for later updates)
+
+Both packages are also attached to every GitHub release (built by `.github/workflows/release.yml`). Tested on OpenCart 4.1.0.4 and 3.0.5.1.

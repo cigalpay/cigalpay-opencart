@@ -1,0 +1,103 @@
+{{ header }}{{ column_left }}
+<div id="content">
+  <div class="page-header">
+    <div class="container-fluid">
+      <div class="pull-right">
+        <button type="submit" form="form-payment" data-toggle="tooltip" title="{{ button_save }}" class="btn btn-primary"><i class="fa fa-save"></i></button>
+        <a href="{{ cancel }}" data-toggle="tooltip" title="{{ button_cancel }}" class="btn btn-default"><i class="fa fa-reply"></i></a></div>
+      <h1>{{ heading_title }}</h1>
+      <ul class="breadcrumb">
+        {% for breadcrumb in breadcrumbs %}
+        <li><a href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a></li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+  <div class="container-fluid">
+    {% if error_warning %}<div class="alert alert-danger alert-dismissible"><i class="fa fa-exclamation-circle"></i> {{ error_warning }}<button type="button" class="close" data-dismiss="alert">&times;</button></div>{% endif %}
+    {% if currency_warning %}<div class="alert alert-warning"><i class="fa fa-exclamation-circle"></i> {{ currency_warning|e }}</div>{% endif %}
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title"><i class="fa fa-pencil"></i> {{ text_edit }}</h3>
+      </div>
+      <div class="panel-body">
+        <p>{{ text_intro }}</p>
+        <p>{{ text_notify }} <code>{{ notify_url|e }}</code></p>
+        <form action="{{ action }}" method="post" enctype="multipart/form-data" id="form-payment" class="form-horizontal">
+          <div class="form-group required">
+            <label class="col-sm-2 control-label" for="input-account-id">{{ entry_account_id }}</label>
+            <div class="col-sm-10">
+              <input type="text" name="payment_cigalpay_account_id" value="{{ payment_cigalpay_account_id|e }}" id="input-account-id" class="form-control" />
+              {% if error_account_id %}<div class="text-danger">{{ error_account_id }}</div>{% endif %}
+            </div>
+          </div>
+          <div class="form-group required">
+            <label class="col-sm-2 control-label" for="input-ipn-secret">{{ entry_ipn_secret }}</label>
+            <div class="col-sm-10">
+              <input type="password" name="payment_cigalpay_ipn_secret" value="{{ payment_cigalpay_ipn_secret|e }}" id="input-ipn-secret" class="form-control" autocomplete="off" />
+              <span class="help-block">{{ help_ipn_secret }}</span>
+              {% if error_ipn_secret %}<div class="text-danger">{{ error_ipn_secret }}</div>{% endif %}
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-2 control-label" for="input-api-key">{{ entry_api_key }}</label>
+            <div class="col-sm-10">
+              <input type="password" name="payment_cigalpay_api_key" value="{{ payment_cigalpay_api_key|e }}" id="input-api-key" class="form-control" autocomplete="off" />
+              <span class="help-block">{{ help_api_key }}</span>
+            </div>
+          </div>
+          {% for field in [['pending_status_id', entry_pending_status, ''], ['order_status_id', entry_order_status, ''], ['review_status_id', entry_review_status, help_review_status]] %}
+          <div class="form-group">
+            <label class="col-sm-2 control-label" for="input-{{ field[0] }}">{{ field[1] }}</label>
+            <div class="col-sm-10">
+              <select name="payment_cigalpay_{{ field[0] }}" id="input-{{ field[0] }}" class="form-control">
+                {% for order_status in order_statuses %}
+                <option value="{{ order_status.order_status_id }}"{% if order_status.order_status_id == attribute(_context, 'payment_cigalpay_' ~ field[0]) %} selected="selected"{% endif %}>{{ order_status.name|e }}</option>
+                {% endfor %}
+              </select>
+              {% if field[2] %}<span class="help-block">{{ field[2] }}</span>{% endif %}
+            </div>
+          </div>
+          {% endfor %}
+          <div class="form-group">
+            <label class="col-sm-2 control-label" for="input-geo-zone">{{ entry_geo_zone }}</label>
+            <div class="col-sm-10">
+              <select name="payment_cigalpay_geo_zone_id" id="input-geo-zone" class="form-control">
+                <option value="0">{{ text_all_zones }}</option>
+                {% for geo_zone in geo_zones %}
+                <option value="{{ geo_zone.geo_zone_id }}"{% if geo_zone.geo_zone_id == payment_cigalpay_geo_zone_id %} selected="selected"{% endif %}>{{ geo_zone.name|e }}</option>
+                {% endfor %}
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-2 control-label" for="input-debug">{{ entry_debug }}</label>
+            <div class="col-sm-10">
+              <select name="payment_cigalpay_debug" id="input-debug" class="form-control">
+                <option value="0"{% if not payment_cigalpay_debug %} selected="selected"{% endif %}>{{ text_disabled }}</option>
+                <option value="1"{% if payment_cigalpay_debug %} selected="selected"{% endif %}>{{ text_enabled }}</option>
+              </select>
+              <span class="help-block">{{ help_debug }}</span>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-2 control-label" for="input-status">{{ entry_status }}</label>
+            <div class="col-sm-10">
+              <select name="payment_cigalpay_status" id="input-status" class="form-control">
+                <option value="1"{% if payment_cigalpay_status %} selected="selected"{% endif %}>{{ text_enabled }}</option>
+                <option value="0"{% if not payment_cigalpay_status %} selected="selected"{% endif %}>{{ text_disabled }}</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-2 control-label" for="input-sort-order">{{ entry_sort_order }}</label>
+            <div class="col-sm-10">
+              <input type="text" name="payment_cigalpay_sort_order" value="{{ payment_cigalpay_sort_order|e }}" id="input-sort-order" class="form-control" />
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{{ footer }}

@@ -1,0 +1,46 @@
+# Pushing a tag vX.Y.Z checks the PHP syntax, builds the OpenCart 4 and OpenCart 3
+# packages and publishes them as a GitHub release.
+name: Release
+
+on:
+  push:
+    tags: ['v*']
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Check the tag matches the extension version
+        run: |
+          tag="${GITHUB_REF_NAME#v}"
+          version=$(grep -oP '"version":\s*"\K[^"]+' oc4/install.json)
+          echo "tag=$tag oc4/install.json=$version"
+          [ "$tag" = "$version" ] || { echo "::error::Tag v$tag doesn't match version $version in oc4/install.json"; exit 1; }
+          grep -q "^## $tag" CHANGELOG.md || { echo "::error::No '## $tag' entry in CHANGELOG.md"; exit 1; }
+
+      - name: Check PHP syntax (OpenCart 3 on PHP 7.4, OpenCart 4 on PHP 8.2)
+        run: |
+          docker run --rm -v "$PWD/oc3:/p" php:7.4-cli sh -c 'find /p -name "*.php" -print0 | xargs -0 -n1 php -l'
+          docker run --rm -v "$PWD/oc4:/p" php:8.2-cli sh -c 'find /p -name "*.php" -print0 | xargs -0 -n1 php -l'
+
+      - name: Build the packages
+        run: |
+          mkdir -p build
+          (cd oc4 && zip -qr ../build/cigalpay-opencart4.ocmod.zip install.json admin catalog system)
+          (cd oc3 && zip -qr ../build/cigalpay-opencart3.ocmod.zip upload)
+          unzip -l build/cigalpay-opencart4.ocmod.zip
+          unzip -l build/cigalpay-opencart3.ocmod.zip
+
+      - name: Publish the release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          notes=$(awk -v v="${GITHUB_REF_NAME#v}" '$0 == "## " v {on=1; next} /^## / {on=0} on && NF' CHANGELOG.md)
+          gh release create "$GITHUB_REF_NAME" build/cigalpay-opencart4.ocmod.zip build/cigalpay-opencart3.ocmod.zip \
+            --title "${GITHUB_REF_NAME#v}" \
+            --notes "${notes:-Release ${GITHUB_REF_NAME#v}.}"
