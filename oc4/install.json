@@ -1,0 +1,7 @@
+{
+  "name": "CigalPay",
+  "description": "Crypto payments (Bitcoin, USDT, Ethereum, Solana and more) for OpenCart. Prices stay in USD or EUR; customers pick the coin on the CigalPay checkout.",
+  "version": "1.0.0",
+  "author": "CigalPay",
+  "link": "https://cigalpay.com/developers"
+}

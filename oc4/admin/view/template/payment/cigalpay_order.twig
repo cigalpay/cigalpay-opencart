@@ -1,0 +1,50 @@
+<table class="table table-bordered">
+  <tbody>
+    <tr><td style="width: 25%;">{{ text_payment }}</td><td>{{ payment_id ? payment_id|e : text_not_paid }}</td></tr>
+    <tr><td>{{ text_checkouts }}</td><td><small>{{ checkout_ids|e }}</small></td></tr>
+    {% if link %}<tr><td>{{ text_payment_page }}</td><td><a href="{{ link|e }}" target="_blank" rel="noopener">{{ link|e }}</a></td></tr>{% endif %}
+    {% if refund_ids %}<tr><td>{{ text_refunds }}</td><td>{{ refund_ids|e }}</td></tr>{% endif %}
+  </tbody>
+</table>
+{% if can_refund %}
+  <fieldset>
+    <legend>{{ text_refund }}</legend>
+    <p class="form-text">{{ text_refund_help }}</p>
+    <div id="cigalpay-refund-alert"></div>
+    <div class="row g-3 align-items-end">
+      <div class="col-sm-3">
+        <label for="cigalpay-amount" class="form-label">{{ entry_amount|format(currency_code|e) }}</label>
+        <input type="number" step="0.01" min="0.01" id="cigalpay-amount" class="form-control"/>
+      </div>
+      <div class="col-sm-6">
+        <label for="cigalpay-reason" class="form-label">{{ entry_reason }}</label>
+        <input type="text" id="cigalpay-reason" maxlength="200" class="form-control"/>
+      </div>
+      <div class="col-sm-3">
+        <button type="button" id="cigalpay-refund" class="btn btn-danger w-100"><i class="fa-solid fa-rotate-left"></i> {{ button_refund }}</button>
+      </div>
+    </div>
+  </fieldset>
+  <script type="text/javascript"><!--
+  $('#cigalpay-refund').on('click', function() {
+      var element = this;
+      $.ajax({
+          url: '{{ refund|e('js') }}',
+          type: 'post',
+          dataType: 'json',
+          data: {amount: $('#cigalpay-amount').val(), reason: $('#cigalpay-reason').val()},
+          beforeSend: function() { $(element).button('loading'); },
+          complete: function() { $(element).button('reset'); },
+          success: function(json) {
+              var alert = $('<div class="alert alert-dismissible"><button type="button" class="btn-close" data-bs-dismiss="alert"></button></div>');
+              alert.addClass(json['error'] ? 'alert-danger' : 'alert-success').prepend(document.createTextNode(json['error'] || json['success']));
+              $('#cigalpay-refund-alert').html(alert);
+              if (json['success']) { $('#history').load('index.php?route=sale/order.history&user_token={{ user_token|e('js') }}&order_id={{ order_id }}'); }
+          },
+          error: function(xhr, ajaxOptions, thrownError) { console.log(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText); }
+      });
+  });
+  //--></script>
+{% elseif no_api_key %}
+  <p class="form-text">{{ text_no_api_key }}</p>
+{% endif %}

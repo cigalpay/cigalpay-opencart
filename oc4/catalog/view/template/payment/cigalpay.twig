@@ -1,0 +1,36 @@
+<fieldset>
+  <div class="border rounded p-3 mb-2">
+    <p class="mb-0">{{ text_description }}</p>
+  </div>
+  <div class="text-end">
+    <button type="button" id="button-confirm" class="btn btn-primary">{{ button_confirm }}</button>
+  </div>
+</fieldset>
+<script type="text/javascript"><!--
+$('#button-confirm').on('click', function() {
+    var element = this;
+
+    $.ajax({
+        url: 'index.php?route=extension/cigalpay/payment/cigalpay.confirm&language={{ language }}',
+        dataType: 'json',
+        beforeSend: function() {
+            $(element).button('loading');
+        },
+        complete: function() {
+            $(element).button('reset');
+        },
+        success: function(json) {
+            if (json['error']) {
+                $('#alert').prepend('<div class="alert alert-danger alert-dismissible"><i class="fa-solid fa-circle-exclamation"></i> ' + json['error'] + ' <button type="button" class="btn-close" data-bs-dismiss="alert"></button></div>');
+            }
+
+            if (json['redirect']) {
+                location = json['redirect'];
+            }
+        },
+        error: function(xhr, ajaxOptions, thrownError) {
+            console.log(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+        }
+    });
+});
+//--></script>
